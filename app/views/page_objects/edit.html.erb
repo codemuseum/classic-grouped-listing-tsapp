@@ -1,0 +1,24 @@
+<% # stylesheets 'scaffold' %>
+<% # javascripts 'prototype', 'effects', 'dragdrop', 'assets' %>
+
+<% fields_for_page_object do |f| %>
+
+  <h1>
+    <%= f.label :header %>
+    <%= f.text_field :header %>
+  </h1>
+  
+  <div class="datapath">
+    <%= f.label :data_path %>
+    <%= f.text_field :data_path %>
+  </div>
+  
+  <div class="groups">
+    <% if @page_object.ungrouped_listings && @page_object.ungrouped_listings.any? %>
+      <%= render :partial => 'groups/edit', :locals => { :full_listings => @page_object.ungrouped_listings } %>
+    <% end %>
+    <% @page_objects.groups.each do |group| %>
+      <%= render :partial  => 'groups/edit', :locals => { :f => f, :group => group } %>
+    <% end %>
+  </div>
+<% end %>

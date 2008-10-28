@@ -1,0 +1,11 @@
+<% # stylesheets 'scaffold' %>
+<% # javascripts 'prototype', 'effects', 'dragdrop', 'assets' %>
+
+<h1><%=h @page_object.header %></h1>
+
+<div class="groups">
+  <% if @page_object.ungrouped_listings && @page_object.ungrouped_listings.any? %>
+    <%= render :partial => 'groups/group', :locals => { :full_listings => @page_object.ungrouped_listings } %>
+  <% end %>
+  <%= render :partial => @page_object.groups %>
+</div>

@@ -1,0 +1,10 @@
+<%# Takes group, or just full_listings if this is not a group %>
+<% group = nil if local_assigns[:group].nil? -%>
+<% full_listings = group.full_listings if local_assigns[:full_listings].nil? -%>
+<div class="group<%= ' untitled' if group.nil? %>">
+  <% unless group.nil? %><h2><%=h group.name %></h2><% end %>
+
+  <% full_listings.each do |listing| %>
+    <%= render :partial => 'page_objects/listing', :locals => { :listing => listing } %>
+  <% end %>
+</div>
