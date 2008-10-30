@@ -17,7 +17,7 @@
     <% if @page_object.ungrouped_listings && @page_object.ungrouped_listings.any? %>
       <%= render :partial => 'groups/edit', :locals => { :full_listings => @page_object.ungrouped_listings } %>
     <% end %>
-    <% @page_objects.groups.each do |group| %>
+    <% @page_object.groups.each do |group| %>
       <%= render :partial  => 'groups/edit', :locals => { :f => f, :group => group } %>
     <% end %>
   </div>

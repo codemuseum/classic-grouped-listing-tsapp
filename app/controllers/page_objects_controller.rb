@@ -2,7 +2,7 @@ class PageObjectsController < ApplicationController
   include PageObjectsControllerHelper
   before_filter :find_page_object, :only => [ :show, :edit, :update, :destroy ]
   before_filter :prepare_page_object_for_clone, :only => [ :duplicate ]
-  before_filter :find_listings, :only => [:show, :edit, :update_valid]
+  before_filter :find_listings, :only => [:show, :edit, :update, :update_valid]
   
   # GET /page_objects
   # GET /page_objects.xml
@@ -114,6 +114,8 @@ class PageObjectsController < ApplicationController
   protected
   
     def find_listings
+      logger.debug "THE PAGE OBJECT IS: #{@page_object.inspect}"
+      
       @page_object.parse_data(
         @page_object.organization.find_data(
           @page_object.data_path, :include => [:name, :description, :url, :picture]))
