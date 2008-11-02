@@ -1,12 +1,18 @@
 <%# Takes f, or just full_listings if this is not a group %>
 <% group = nil if local_assigns[:group].nil? -%>
+<% group_div_id =  if group.nil? then 'untitled_group' elsif group.new_record? then 'new_group__INDEX_' else "group_#{group.id}" end %>
 <% full_listings = group.full_listings if local_assigns[:full_listings].nil? -%>
-<div class="group<%= ' untitled' if group.nil? %>">
+<div class="group<%=  group.nil? ? ' untitled' : ' draggable' %>" id="classic_grouped_listing_<%= group_div_id %>">
   <% unless group.nil? %>
-  <% fields_for "#{f.object_name}[group]", group do |gf| -%>
+  <% fields_for "#{f.object_name}[assigned_groups][]", group do |gf| -%>
     <h2>
-      <%= gf.label :header %>
-      <%= gf.text_field :header %>
+      <div class="remove"><a title="Permanently remove this group.">Delete Group</a></div>
+      
+      <%= gf.label :name, 'Group Name' %>
+      <%= gf.text_field :name, :index => nil %>
+      <%= gf.hidden_field :id, :index => nil unless group.new_record? %>
+      <%= gf.hidden_field :position, :class => 'position-value', :index => nil %>
+      <%= gf.hidden_field :piped_listings, :class => 'piped-listings-value', :index => nil %>
     </h2>
   <% end %>
   <% end %>

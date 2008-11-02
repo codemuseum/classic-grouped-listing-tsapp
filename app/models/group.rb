@@ -5,16 +5,22 @@ class Group < ActiveRecord::Base
   attr_accessor :full_listings
   attr_protected :page_object_id
   
+  def after_initialize
+    self.full_listings = []
+  end
+  
   def piped_listings=(str)
-    self.listings = str.split('|')
+    self.listings = str.blank? ? [] : str.split('|')
   end
   
   def piped_listings
-    "|#{self.listings ? self.listings.join('|') : ''}|"
+    self.listings ? self.listings.join('|') : ''
   end
   
   def grab_listings(listing_data)
-    self.full_listings = listing_data.reject! { |l| self.listings.include?(l.urn) } 
+    self.full_listings = Array.new
+    listing_data.each { |l| self.full_listings << l if self.listings.include?(l.urn) }
+    listing_data.delete_if { |l| self.listings.include?(l.urn) }
   end
   
   

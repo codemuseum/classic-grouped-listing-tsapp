@@ -1,5 +1,5 @@
-<% # stylesheets 'scaffold' %>
-<% # javascripts 'prototype', 'effects', 'dragdrop', 'assets' %>
+<% stylesheets 'classic-grouped-listing', 'classic-grouped-listing-edit' -%>
+<% javascripts 'prototype', 'effects', 'dragdrop', 'classic-grouped-listing-edit' %>
 
 <% fields_for_page_object do |f| %>
 
@@ -9,16 +9,40 @@
   </h1>
   
   <div class="datapath">
-    <%= f.label :data_path %>
-    <%= f.text_field :data_path %>
+    <%= f.label :data_path, 'Search for (data path):' %>
+    <span class="readonly">
+      <%=h f.object.data_path %>
+      <a class='button'>change</a>
+    </span>
+    <span class="editable hidden">
+      <%= f.text_field :data_path %>
+    </span>
   </div>
   
-  <div class="groups">
-    <% if @page_object.ungrouped_listings && @page_object.ungrouped_listings.any? %>
-      <%= render :partial => 'groups/edit', :locals => { :full_listings => @page_object.ungrouped_listings } %>
-    <% end %>
+  <div class="functions">
+    <%= link_to_new_page "New #{f.object.data_path.blank? ? 'Page' : f.object.data_path.singularize.titleize}...", 
+          { :representing => f.object.data_path.blank? ? nil : f.object.data_path.singularize }, { :class => 'button new-page' } %>
+    &nbsp; -or-
+    <a class='button new-group'>Add Group</a>
+  </div>
+  
+  
+  <div class="groups" id="classic_grouped_listing_<%= f.object.id %>">
+    <%= render :partial => 'groups/edit', :locals => { :full_listings => @page_object.ungrouped_listings } %>
     <% @page_object.groups.each do |group| %>
       <%= render :partial  => 'groups/edit', :locals => { :f => f, :group => group } %>
     <% end %>
+  </div>
+  
+  
+  <div class="functions">
+    <%= link_to_new_page "New #{f.object.data_path.blank? ? 'Page' : f.object.data_path.singularize.titleize}...", 
+          { :representing => f.object.data_path.blank? ? nil : f.object.data_path.singularize  }, { :class => 'button new-page' } %>
+    &nbsp; -or-
+    <a class='button new-group'>Add Group</a>
+  </div>
+  
+  <div class="new-group-code" style="display:none">
+    <%= render :partial => 'groups/edit', :locals => {:f => f, :group => Group.new } %>
   </div>
 <% end %>
