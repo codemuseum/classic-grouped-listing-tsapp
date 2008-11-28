@@ -16,6 +16,11 @@ class PageObject < ActiveRecord::Base
   
   # TODO implement proper cloning
   
+  def fetch_data
+    parse_data(self.organization.find_data(self.data_path, 
+      :include => [:url, :name, :description, :picture]))
+  end
+  
   def parse_data(data_array)
     arry = data_array.dup
     self.groups.each { |g| g.grab_listings(arry) }

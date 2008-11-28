@@ -114,10 +114,6 @@ class PageObjectsController < ApplicationController
   protected
   
     def find_listings
-      logger.debug "THE PAGE OBJECT IS: #{@page_object.inspect}"
-      
-      @page_object.parse_data(
-        @page_object.organization.find_data(
-          @page_object.data_path, :include => [:name, :description, :url, :picture]))
+      @page_object.fetch_data
     end
 end
