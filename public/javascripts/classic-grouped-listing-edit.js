@@ -8,7 +8,7 @@ var ClassicGroupedListingEdit = {
       ClassicGroupedListingEdit._observeDrags(groupsBox);
       groupsBox.getElementsBySelector('div.group.draggable').each(function(g) { ClassicGroupedListingEdit._observeRemove(groupsBox, g); });
       
-      var creationCodeEl = el.getElementsBySelector('.new-group-code')[0]
+      var creationCodeEl = el.getElementsBySelector('.new-group-code')[0];
       var creationCode = creationCodeEl.innerHTML;
       creationCodeEl.remove();
       el.getElementsBySelector('a.new-group').each(function(newGroup) { newGroup.observe('click', function() { ClassicGroupedListingEdit._newGroup(groupsBox, creationCode); }) });
