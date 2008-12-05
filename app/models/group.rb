@@ -17,10 +17,18 @@ class Group < ActiveRecord::Base
     self.listings ? self.listings.join('|') : ''
   end
   
+  # Preserves order of self.listings when getting full listing
   def grab_listings(listing_data)
     self.full_listings = Array.new
-    listing_data.each { |l| self.full_listings << l if self.listings.include?(l.urn) }
-    listing_data.delete_if { |l| self.listings.include?(l.urn) }
+    self.listings.each do |l|
+      matched = listing_data.detect { |d| d.urn == l }
+      if matched
+        self.full_listings << matched 
+        listing_data.delete(matched)
+      end
+    end
+    # listing_data.each { |l| self.full_listings << l if self.listings.include?(l.urn) }
+    # listing_data.delete_if { |l| self.listings.include?(l.urn) }
   end
   
   
